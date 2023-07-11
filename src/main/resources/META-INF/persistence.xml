@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2023.  Adib S. A.
+  ~ Copyright (c) 2023.  PT Atadopos
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  ~
+  -->
+
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+
+    <persistence-unit name="myPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>link.pihda.billofmaterial.entity.Item</class>
+        <class>link.pihda.billofmaterial.entity.Transaction</class>
+        <class>link.pihda.billofmaterial.entity.Procurement</class>
+
+
+        <properties>
+<!--            <property name="eclipselink.logging.level" value="FINE"/>-->
+            <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
+<!--            <property name="jakarta.persistence.jdbc.url"-->
+<!--                      value="jdbc:h2:file:./data;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"/>-->
+            <property name="jakarta.persistence.jdbc.user" value="sa"/>
+            <property name="eclipselink.ddl-generation" value="create-tables"/>
+            <property name="eclipselink.ddl-generation.output-mode" value="database" />
+        </properties>
+    </persistence-unit>
+</persistence>

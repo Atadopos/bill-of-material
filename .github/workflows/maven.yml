@@ -1,0 +1,45 @@
+name: Java CI with Maven
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            profile: linux
+          - os: windows-latest
+            profile: windows
+          - os: macos-latest
+            profile: mac
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Set up JDK 1.17
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Cache Maven packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
+    - name: Build with Maven
+      run: ./mvnw clean install
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Application-${{ matrix.profile }}
+        path: ./target/*.deb, ./target/*.rpm, ./target/*.AppImage, ./target/*.exe, ./target/*.dmg

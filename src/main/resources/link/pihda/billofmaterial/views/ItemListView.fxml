@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2023.  Adib S. A.
+  ~ Copyright (c) 2023.  PT Atadopos
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  ~
+  -->
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import link.pihda.billofmaterial.ui.RegexLimitingTextField?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="800.0" prefWidth="1200.0" spacing="10.0"
+      xmlns="http://javafx.com/javafx/17.0.7-internal"
+      fx:controller="link.pihda.billofmaterial.views.ItemListViewController"
+      style="-fx-padding: 20px;">
+
+    <HBox spacing="10.0" alignment="CENTER">
+        <Label text="Transaction Name:"/>
+        <TextField fx:id="transactionNameField" prefWidth="200.0"/>
+        <Button text="Change Transaction Name" onAction="#handleChangeTransactionName"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5px 10px;"/>
+        <Button text="Export as XLSX" onAction="#handleExportExcel"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5px 10px;"/>
+    </HBox>
+
+    <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Bill of Materials"/>
+
+    <TableView fx:id="itemListTable" VBox.vgrow="ALWAYS" style="-fx-border-color: #ccc; -fx-border-width: 1px;">
+        <columns>
+            <TableColumn fx:id="itemColumn" editable="false" text="Item" reorderable="false"/>
+            <TableColumn fx:id="quantityColumn" editable="false" text="Quantity" reorderable="false"/>
+            <TableColumn fx:id="unitColumn" editable="false" text="Unit" reorderable="false"/>
+            <TableColumn fx:id="priceColumn" editable="false" text="Price" reorderable="false"/>
+            <TableColumn fx:id="totalPriceColumn" editable="false" text="Total Price" reorderable="false"/>
+        </columns>
+    </TableView>
+
+    <Label fx:id="descriptionLabel" text="Description:"/>
+    <TextArea fx:id="descriptionArea" editable="false" wrapText="true" prefHeight="100"/>
+
+    <Label fx:id="buyLinkLabel" text="Buy Link:"/>
+    <TextArea fx:id="buyLinkArea" editable="false" wrapText="true" prefHeight="100"/>
+
+    <GridPane hgap="10" vgap="10">
+        <Label text="Subtotal:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Label fx:id="subtotalLabel" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Taxes:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <Label fx:id="taxesLabel" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <RegexLimitingTextField fx:id="taxesInput" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+        <Button text="Update Taxes" onAction="#updateTaxes" GridPane.columnIndex="3" GridPane.rowIndex="1"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5px 10px;"/>
+
+        <Label text="Shipping Fees:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <Label fx:id="shippingFeesLabel" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <RegexLimitingTextField fx:id="shippingFeesInput" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+        <Button text="Update Shipping" onAction="#updateShipping" GridPane.columnIndex="3" GridPane.rowIndex="2"
+                style="-fx-background-color: #FFC107; -fx-text-fill: white; -fx-padding: 5px 10px;"/>
+
+        <Label text="Total:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <Label fx:id="totalLabel" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+        <Label text="Currency:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <ComboBox fx:id="currencyComboBox" GridPane.columnIndex="1" GridPane.rowIndex="4" onAction="#updateCurrency"/>
+    </GridPane>
+
+    <HBox spacing="10.0" alignment="CENTER">
+        <Button text="Add Item" onAction="#handleAddItem"
+                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 5px 10px;"/>
+        <Button fx:id="editItemButton" text="Edit Item" onAction="#handleEditItem"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5px 10px;"/>
+        <Button fx:id="removeItemButton" text="Remove Item" onAction="#handleRemoveItem"
+                style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-padding: 5px 10px;"/>
+        <Button fx:id="backButton" text="Back" onAction="#handleBack"
+                style="-fx-background-color: #9E9E9E; -fx-text-fill: white; -fx-padding: 5px 10px;"/>
+    </HBox>
+</VBox>

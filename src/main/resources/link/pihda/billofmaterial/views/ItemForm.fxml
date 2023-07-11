@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2023.  Adib S. A.
+  ~ Copyright (c) 2023.  PT Atadopos
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  ~
+  -->
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import link.pihda.billofmaterial.ui.RegexLimitingTextField?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="800.0" prefWidth="1200.0"
+      xmlns="http://javafx.com/javafx/17.0.7-internal"
+      fx:controller="link.pihda.billofmaterial.views.ItemFormController" alignment="CENTER">
+    <GridPane hgap="10" vgap="10" alignment="CENTER">
+        <Label text="*Item Name:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="itemField" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="600"/>
+        <Label text="*Price:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <RegexLimitingTextField fx:id="priceField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label text="*Quantity:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <RegexLimitingTextField fx:id="quantityField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label text="*Unit:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <ComboBox fx:id="unitField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Label text="*Buy Link:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <RegexLimitingTextField fx:id="buyLinkField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+        <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        <TextField fx:id="descriptionField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+        <Button fx:id="saveButton" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5px 10px;"
+                text="Save" onAction="#handleSave" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+        <Button text="Cancel" style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-padding: 5px 10px;"
+                onAction="#handleCancel" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+    </GridPane>
+</VBox>

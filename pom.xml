@@ -1,0 +1,352 @@
+<!--
+  ~ Copyright (c) 2023.  Adib S. A.
+  ~ Copyright (c) 2023.  PT Atadopos
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  ~
+  -->
+
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!-- TODO: detect platform-->
+    <groupId>link.pihda</groupId>
+    <artifactId>billofmaterial</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <mainModule>${project.groupId}.${project.artifactId}</mainModule>
+        <mainClass>link.pihda.billofmaterial.BomApplication</mainClass>
+        <javafx.version>20.0.1</javafx.version>
+        <javafx.url>
+            https://download2.gluonhq.com/openjfx/${javafx.version}/openjfx-${javafx.version}_${javafx.os}-${javafx.arch}_bin-sdk.zip
+        </javafx.url>
+        <javafx.cache>${basedir}/javafx-cache/</javafx.cache>
+        <lombok-version>1.18.22</lombok-version>
+        <mail.api.version>2.1.2</mail.api.version>
+        <eclipselink.version>4.0.2</eclipselink.version>
+        <persistence.api.version>3.1.0</persistence.api.version>
+        <activation.api.version>2.1.2</activation.api.version>
+        <h2.version>2.1.214</h2.version>
+        <lombok.version>${lombok-version}</lombok.version>
+        <poi.ooxml.version>5.2.3</poi.ooxml.version>
+        <poi.version>5.2.3</poi.version>
+        <commons.math.version>3.6.1</commons.math.version>
+        <atlantafx.base.version>2.0.1</atlantafx.base.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mkpaz</groupId>
+            <artifactId>atlantafx-base</artifactId>
+            <version>${atlantafx.base.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.mail</groupId>
+            <artifactId>jakarta.mail-api</artifactId>
+            <version>${mail.api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+            <version>${eclipselink.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>${persistence.api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
+            <version>${activation.api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.ooxml.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>${commons.math.version}</version>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <extensions>
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>1.7.0</version>
+            </extension>
+        </extensions>
+        <plugins>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>${mainModule}/${mainClass}</mainClass>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <annotationProcessorPaths>
+                        <annotationProcessorPath>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok-version}</version>
+                        </annotationProcessorPath>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>${mainClass}</mainClass>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>download-and-unpack-javafx</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- Create cache directory if it doesn't exist -->
+                                <mkdir dir="${javafx.cache}"/>
+
+                                <!-- Download to cache directory if not already present -->
+                                <get src="${javafx.url}"
+                                     dest="${javafx.cache}/javafx-sdk-${javafx.version}.zip"
+                                     skipexisting="true"/>
+
+                                <!-- Make directory in build path for unpacking -->
+                                <mkdir dir="${project.build.directory}/javafx-sdk"/>
+
+                                <!-- Unzip from cache directory to build path -->
+                                <unzip
+                                        src="${javafx.cache}/javafx-sdk-${javafx.version}.zip"
+                                        dest="${project.build.directory}/javafx-sdk/unpacked"/>
+
+                                <!-- Make the directory -->
+                                <mkdir dir="${project.build.directory}/jlink/lib/javafx"/>
+
+                                <!-- Move -->
+                                <move todir="${project.build.directory}/jlink/lib/javafx">
+                                    <fileset
+                                            dir="${project.build.directory}/javafx-sdk/unpacked/javafx-sdk-${javafx.version}/lib"/>
+                                </move>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.tentackle</groupId>
+                <artifactId>tentackle-jlink-maven-plugin</artifactId>
+                <version>17.13.0.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <mainModule></mainModule>
+                    <mainClass>${mainClass}</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>create-runtime-image</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jlink</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}/libs
+                            </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <version>3.0.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.groovy</groupId>
+                        <artifactId>groovy</artifactId>
+                        <version>4.0.6</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <properties>
+                                <property>
+                                    <name>osArch</name>
+                                    <value>${os.detected.arch}</value>
+                                </property>
+                            </properties>
+                            <scripts>
+                                <script><![CDATA[
+                                    String osName = System.getProperty("os.name").toLowerCase();
+                                    String osArch = System.getProperty("os.arch");
+                                    String javafxArch;
+                                    String javafxOS;
+
+                                    if (osArch == 'x86_64' || osArch == 'amd64') {
+                                        javafxArch = 'x64';
+                                    } else if (osArch == 'aarch_64') {
+                                        javafxArch = 'aarch64';
+                                    } else {
+                                        throw new Exception("Unsupported architecture: " + osArch);
+                                    }
+
+                                    if (osName.contains("mac")) {
+                                        javafxOS = 'mac';
+                                    } else if (osName.contains("win")) {
+                                        javafxOS = 'windows';
+                                    } else if (osName.contains("nux")) {
+                                        javafxOS = 'linux';
+                                    } else {
+                                        throw new Exception("Unsupported operating system: " + osName);
+                                    }
+
+                                    project.properties['javafx.arch'] = javafxArch;
+                                    project.properties['javafx.os'] = javafxOS;
+                            ]]></script>
+                            </scripts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.github.fvarrui</groupId>
+                <artifactId>javapackager</artifactId>
+                <version>1.7.2</version>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                        <configuration>
+                            <platform>${javafx.os}</platform>
+                            <mainClass>${mainClass}</mainClass>
+                            <bundleJre>true</bundleJre>
+                            <copyDependencies>false</copyDependencies>
+                            <generateInstaller>true</generateInstaller>
+                            <jrePath>${project.build.directory}/jlink/</jrePath>
+                            <platform>auto</platform>
+                            <customizedJre>true</customizedJre>
+                            <additionalModulePaths>
+                                <additionalModulePath>${project.build.directory}/jlink/lib/javafx
+                                </additionalModulePath>
+                            </additionalModulePaths>
+                            <additionalModules>
+                                <additionalModule>javafx.controls</additionalModule>
+                                <additionalModule>javafx.base</additionalModule>
+                                <additionalModule>javafx.fxml</additionalModule>
+                            </additionalModules>
+                            <vmArgs>
+                                <arg>--module-path jre/lib/javafx/</arg>
+                                <arg>--add-modules=javafx.controls,javafx.fxml,javafx.base</arg>
+                                <arg>-Xms32m</arg>
+                                <arg>link.pihda.billofmaterial.BomApplication</arg>
+                            </vmArgs>
+                            <classpath>
+                                jre/conf:jre/cp/javafx-base-${javafx.version}.jar:jre/cp/javafx-base-${javafx.version}-${javafx.os}.jar:jre/cp/javafx-controls-${javafx.version}.jar:jre/cp/javafx-controls-${javafx.version}-${javafx.os}.jar:jre/cp/javafx-graphics-${javafx.version}.jar:jre/cp/javafx-graphics-${javafx.version}-${javafx.os}.jar:jre/cp/javafx-fxml-${javafx.version}.jar:jre/cp/javafx-fxml-${javafx.version}-${javafx.os}.jar:jre/cp/jakarta.mail-api-${mail.api.version}.jar:jre/cp/eclipselink-${eclipselink.version}.jar:jre/cp/jakarta.persistence-api-${persistence.api.version}.jar:jre/cp/jakarta.activation-api-${activation.api.version}.jar:jre/cp/h2-${h2.version}.jar:jre/cp/lombok-${lombok.version}.jar:jre/cp/poi-ooxml-${poi.ooxml.version}.jar:jre/cp/poi-${poi.version}.jar:jre/cp/commons-math3-${commons.math.version}.jar:jre/cp/atlantafx-base-${atlantafx.base.version}.jar
+                            </classpath>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>false</filtering>
+            </testResource>
+        </testResources>
+    </build>
+</project>
