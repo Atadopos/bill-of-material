@@ -6,13 +6,7 @@
     popd
     cd %script_dir%
     cd ..
-    <#if mainModule != "">
-    <#-- modular application -->
-        bin\java${(modulePath!="")?then(" -p " + modulePath, "")}${(classPath!="")?then(" -cp " + classPath, "")} -m ${mainModule}/${mainClass} --module-path lib/javafx/lib/ --add-modules=javafx.controls,javafx.fxml,javafx.base
-    <#else>
-    <#-- classpath application -->
-        bin\java -cp ${classPath}  --module-path lib/javafx/lib/ --add-modules=javafx.controls,javafx.fxml,javafx.base ${mainClass}
-    </#if>
+    bin\run.cmd
 <#else>
     #!/bin/sh
     <#if osName?upper_case?contains("MAC")>
