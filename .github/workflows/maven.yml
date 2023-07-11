@@ -43,41 +43,100 @@ jobs:
     - name: Build with Maven
       run: ./mvnw clean install
 
-    - name: List files in target
-      run: |
-        ls -l target
+#    - name: Upload DEB artifact for Linux
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: Application-Linux
+#        path: ./target/*.deb
+#      if: matrix.profile == 'linux'
+#
+#    - name: Upload RPM artifact for Linux
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: Application-Linux
+#        path: ./target/*.rpm
+#      if: matrix.profile == 'linux'
+#
+#    - name: Upload AppImage artifact for Linux
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: Application-Linux
+#        path: ./target/*.AppImage
+#      if: matrix.profile == 'linux'
+#
+#    - name: Upload EXE artifact for Windows
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: Application-Windows
+#        path: ./target/*.exe
+#      if: matrix.profile == 'windows'
+#
+#    - name: Upload DMG artifact for macOS
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: Application-macOS
+#        path: ./target/*.dmg
+#      if: matrix.profile == 'mac'
 
-    - name: Upload DEB artifact for Linux
-      uses: actions/upload-artifact@v2
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=VERSION::$(cat VERSION)
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: Application-Linux
-        path: ./target/*.deb
+        tag_name: ${{ steps.get_version.outputs.VERSION }}
+        release_name: Release ${{ steps.get_version.outputs.VERSION }}
+        draft: false
+        prerelease: false
+
+    - name: Upload DEB Release Asset
       if: matrix.profile == 'linux'
-
-    - name: Upload RPM artifact for Linux
-      uses: actions/upload-artifact@v2
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: Application-Linux
-        path: ./target/*.rpm
-      if: matrix.profile == 'linux'
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./target/*.deb
+        asset_name: bill-of-material.deb
+        asset_content_type: application/octet-stream
 
-    - name: Upload AppImage artifact for Linux
-      uses: actions/upload-artifact@v2
-      with:
-        name: Application-Linux
-        path: ./target/*.AppImage
-      if: matrix.profile == 'linux'
-
-    - name: Upload EXE artifact for Windows
-      uses: actions/upload-artifact@v2
-      with:
-        name: Application-Windows
-        path: ./target/*.exe
+    - name: Upload EXE Release Asset
       if: matrix.profile == 'windows'
-
-    - name: Upload DMG artifact for macOS
-      uses: actions/upload-artifact@v2
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: Application-macOS
-        path: ./target/*.dmg
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./target/*.exe
+        asset_name: bill-of-material.exe
+        asset_content_type: application/octet-stream
+
+    - name: Upload AppImage Release Asset
+      if: matrix.profile == 'linux'
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./target/*.AppImage
+        asset_name: bill-of-material.AppImage
+        asset_content_type: application/octet-stream
+
+    - name: Upload DMG Release Asset
       if: matrix.profile == 'mac'
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./target/*.dmg
+        asset_name: bill-of-material.dmg
+        asset_content_type: application/octet-stream
