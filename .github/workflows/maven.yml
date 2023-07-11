@@ -95,7 +95,7 @@ jobs:
 
     - name: Upload DEB Release Asset
       if: matrix.profile == 'linux'
-      id: upload-release-asset
+      id: upload-deb-release-asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -107,7 +107,7 @@ jobs:
 
     - name: Upload EXE Release Asset
       if: matrix.profile == 'windows'
-      id: upload-release-asset
+      id: upload-exe-release-asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -119,7 +119,7 @@ jobs:
 
     - name: Upload AppImage Release Asset
       if: matrix.profile == 'linux'
-      id: upload-release-asset
+      id: upload-appimage-release-asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -131,7 +131,7 @@ jobs:
 
     - name: Upload DMG Release Asset
       if: matrix.profile == 'mac'
-      id: upload-release-asset
+      id: upload-dmg-release-asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
