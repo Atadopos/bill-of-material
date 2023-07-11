@@ -159,13 +159,6 @@
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>3.1.0</version>
-                <!--                <dependencies>-->
-                <!--                    <dependency>-->
-                <!--                        <groupId>ant-contrib</groupId>-->
-                <!--                        <artifactId>ant-contrib</artifactId>-->
-                <!--                        <version>1.0b3</version>-->
-                <!--                    </dependency>-->
-                <!--                </dependencies>-->
                 <executions>
                     <execution>
                         <id>download-and-unpack-javafx</id>
@@ -196,38 +189,19 @@
                                 <mkdir dir="${project.build.directory}/jlink/lib/javafx/lib"/>
 
                                 <!-- Move -->
-                                <move todir="${project.build.directory}/jlink/lib/javafx/lib">
-                                    <fileset
-                                            dir="${project.build.directory}/javafx-sdk/unpacked/javafx-sdk-${javafx.version}/lib"/>
-                                </move>
+                                <!--                                <move todir="${project.build.directory}/jlink/lib/javafx/lib">-->
+                                <!--                                    <fileset-->
+                                <!--                                            dir="${project.build.directory}/javafx-sdk/unpacked/javafx-sdk-${javafx.version}/lib"/>-->
+                                <!--                                </move>-->
                                 <mkdir dir="${project.build.directory}/javafx-sdk/unpacked/javafx-sdk-${javafx.version}/bin"/>
                                 <mkdir dir="${project.build.directory}/javafx-sdk/unpacked/javafx-sdk-${javafx.version}/bin/placeholder"/>
                                 <mkdir dir="${project.build.directory}/jlink/lib/javafx/bin"/>
-                                <move todir="${project.build.directory}/jlink/lib/javafx/bin">
-                                    <fileset
-                                            dir="${project.build.directory}/javafx-sdk/unpacked/javafx-sdk-${javafx.version}/bin"/>
-                                </move>
+                                <!--                                <move todir="${project.build.directory}/jlink/lib/javafx/bin">-->
+                                <!--                                    <fileset-->
+                                <!--                                            dir="${project.build.directory}/javafx-sdk/unpacked/javafx-sdk-${javafx.version}/bin"/>-->
+                                <!--                                </move>-->
                             </target>
                         </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.tentackle</groupId>
-                <artifactId>tentackle-jlink-maven-plugin</artifactId>
-                <version>17.13.0.0</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <mainModule></mainModule>
-                    <mainClass>${mainClass}</mainClass>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>create-runtime-image</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>jlink</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -309,6 +283,28 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <!-- add Main-Class to manifest file -->
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>${mainClass}</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>io.github.fvarrui</groupId>
                 <artifactId>javapackager</artifactId>
                 <version>1.7.2</version>
@@ -322,13 +318,31 @@
                             <platform>${javafx.os}</platform>
                             <mainClass>${mainClass}</mainClass>
                             <bundleJre>true</bundleJre>
+                            <runnableJar>${project.build.directory}/${project.artifactId}-${project.version}.jar
+                            </runnableJar>
                             <copyDependencies>false</copyDependencies>
                             <generateInstaller>true</generateInstaller>
-                            <jrePath>${project.build.directory}/jlink/</jrePath>
                             <platform>auto</platform>
                             <customizedJre>true</customizedJre>
+                            <licenseFile>LICENSE.txt</licenseFile>
+                            <organizationName>Atadopos</organizationName>
+                            <winConfig>
+                                <generateSetup>false</generateSetup>
+                                <generateMsi>true</generateMsi>
+                                <generateMsm>false</generateMsm>
+                                <wrapJar>false</wrapJar>
+                            </winConfig>
+
+                            <linuxConfig>
+                                <wrapJar>false</wrapJar>
+                            </linuxConfig>
+
                             <additionalModulePaths>
-                                <additionalModulePath>${project.build.directory}/jlink/lib/javafx/lib/
+                                <additionalModulePath>
+                                    ${project.build.directory}/javafx-sdk/unpacked/javafx-sdk-${javafx.version}/lib
+                                </additionalModulePath>
+                                <additionalModulePath>
+                                    ${project.build.directory}/libs
                                 </additionalModulePath>
                             </additionalModulePaths>
                             <additionalModules>
@@ -337,14 +351,10 @@
                                 <additionalModule>javafx.fxml</additionalModule>
                             </additionalModules>
                             <vmArgs>
-                                <arg>--module-path jre/lib/javafx/lib/</arg>
-                                <arg>--add-modules=javafx.controls,javafx.fxml,javafx.base</arg>
                                 <arg>-Xms32m</arg>
+                                <arg>-jar ${project.artifactId}-${project.version}.jar</arg>
                                 <arg>link.pihda.billofmaterial.BomApplication</arg>
                             </vmArgs>
-                            <classpath>
-                                jre/conf:jre/cp/javafx-base-${javafx.version}.jar:jre/cp/javafx-base-${javafx.version}-${javafx.os}.jar:jre/cp/javafx-controls-${javafx.version}.jar:jre/cp/javafx-controls-${javafx.version}-${javafx.os}.jar:jre/cp/javafx-graphics-${javafx.version}.jar:jre/cp/javafx-graphics-${javafx.version}-${javafx.os}.jar:jre/cp/javafx-fxml-${javafx.version}.jar:jre/cp/javafx-fxml-${javafx.version}-${javafx.os}.jar:jre/cp/jakarta.mail-api-${mail.api.version}.jar:jre/cp/eclipselink-${eclipselink.version}.jar:jre/cp/jakarta.persistence-api-${persistence.api.version}.jar:jre/cp/jakarta.activation-api-${activation.api.version}.jar:jre/cp/h2-${h2.version}.jar:jre/cp/lombok-${lombok.version}.jar:jre/cp/poi-ooxml-${poi.ooxml.version}.jar:jre/cp/poi-${poi.version}.jar:jre/cp/commons-math3-${commons.math.version}.jar:jre/cp/atlantafx-base-${atlantafx.base.version}.jar
-                            </classpath>
                         </configuration>
                     </execution>
                 </executions>
