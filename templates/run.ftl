@@ -8,10 +8,10 @@
     cd ..
     <#if mainModule != "">
     <#-- modular application -->
-        bin\java${(modulePath!="")?then(" -p " + modulePath, "")}${(classPath!="")?then(" -cp " + classPath, "")} -m ${mainModule}/${mainClass} --module-path lib/javafx/ --add-modules=javafx.controls,javafx.fxml,javafx.base
+        bin\java${(modulePath!="")?then(" -p " + modulePath, "")}${(classPath!="")?then(" -cp " + classPath, "")} -m ${mainModule}/${mainClass} --module-path lib/javafx/lib/ --add-modules=javafx.controls,javafx.fxml,javafx.base
     <#else>
     <#-- classpath application -->
-        bin\java -cp ${classPath}  --module-path lib/javafx/ --add-modules=javafx.controls,javafx.fxml,javafx.base ${mainClass}
+        bin\java -cp ${classPath}  --module-path lib/javafx/lib/ --add-modules=javafx.controls,javafx.fxml,javafx.base ${mainClass}
     </#if>
 <#else>
     #!/bin/sh
@@ -25,9 +25,9 @@
     </#if>
     <#if mainModule != "">
     <#-- modular application -->
-        bin/java${(modulePath!="")?then(" -p " + modulePath, "")}${(classPath!="")?then(" -cp " + classPath, "")} -m ${mainModule}/${mainClass} --module-path lib/javafx/ --add-modules=javafx.controls,javafx.fxml,javafx.base
+        bin/java${(modulePath!="")?then(" -p " + modulePath, "")}${(classPath!="")?then(" -cp " + classPath, "")} -m ${mainModule}/${mainClass} --module-path lib/javafx/lib/ --add-modules=javafx.controls,javafx.fxml,javafx.base
     <#else>
     <#-- classpath application -->
-        bin/java -cp ${classPath} --module-path lib/javafx/ --add-modules=javafx.controls,javafx.fxml,javafx.base ${mainClass}
+        bin/java -cp ${classPath} --module-path lib/javafx/lib/ --add-modules=javafx.controls,javafx.fxml,javafx.base ${mainClass}
     </#if>
 </#if>
