@@ -67,7 +67,7 @@ JVMDefaultOptions="${vmArgs}"
 JVMOptionsFile="$SCRIPTPATH/${info.name}.l4j.ini"
 [ -f "${JVMOptionsFile}" ] && while read -r option; do JVMDefaultOptions+=" $option"; done <<< $(sed "/^#.*$/d" "${JVMOptionsFile}")
 
-JVMClassPath=""
+JVMClassPath="$BINARY"
 #foreach ($classpath in $info.classpaths)
 JVMClassPath+=":${classpath}"
 #end
@@ -82,8 +82,8 @@ Bootstrap="$SCRIPTPATH/scripts/${info.bootstrapFile.name}" && [ -x "$Bootstrap" 
 #end
 
 #if ($info.administratorRequired)
-pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY GDKBACKEND=x11 "${JAVA}" ${JVMDefaultOptions} -cp "${JVMClassPath}" $@
+pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY GDKBACKEND=x11 "${JAVA}" ${JVMDefaultOptions} -jar "${JVMClassPath}" $@
 #else
-"${JAVA}" -cp "${JVMClassPath}" ${JVMDefaultOptions}
+"${JAVA}" ${JVMDefaultOptions} -jar "${JVMClassPath}" $@
 #end
 exit 0
