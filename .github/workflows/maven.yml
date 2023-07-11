@@ -40,16 +40,12 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
 
-    - name: List files in target directory
-      run: |
-        ls -l .
+    - name: Build with Maven
+      run: ./mvnw clean install
 
-    - name: List files in target 2
+    - name: List files in target
       run: |
-        ls -l ~/
-#    - name: Build with Maven
-#      run: ./mvnw clean install
-#
+        ls -l target
 #    - name: Upload artifact
 #      uses: actions/upload-artifact@v2
 #      with:
