@@ -277,7 +277,7 @@
                                     }
 
                                     if (osName.contains("mac")) {
-                                        javafxOS = 'mac';
+                                        javafxOS = 'osx';
                                     } else if (osName.contains("win")) {
                                         javafxOS = 'windows';
                                     } else if (osName.contains("nux")) {
