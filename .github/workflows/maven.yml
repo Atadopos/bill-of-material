@@ -27,7 +27,12 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        
+
+    - name: Install WiX Toolset
+      if: runner.os == 'windows-latest'
+      run: |
+        choco install wixtoolset
+
     - name: Cache Maven packages
       uses: actions/cache@v2
       with:
@@ -42,4 +47,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Application-${{ matrix.profile }}
-        path: ./target/*.deb, ./target/*.rpm, ./target/*.AppImage, ./target/*.exe, ./target/*.dmg
+        path: ./bill-of-material/target/*.deb, ./bill-of-material/target/*.rpm, ./bill-of-material/target/*.AppImage, ./bill-of-material/target/*.exe, ./bill-of-material/target/*.dmg
