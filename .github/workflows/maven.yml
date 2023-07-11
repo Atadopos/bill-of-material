@@ -42,11 +42,11 @@ jobs:
 
     - name: List files in target directory
       run: |
-        ls -l ./bill-of-material/target
-
-    - name: List files in target directory
-      run: |
         ls -l .
+
+    - name: List files in target 2
+      run: |
+        ls -l ~/
 #    - name: Build with Maven
 #      run: ./mvnw clean install
 #
