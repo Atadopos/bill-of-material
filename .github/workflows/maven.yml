@@ -40,11 +40,18 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
 
-    - name: Build with Maven
-      run: ./mvnw clean install
+    - name: List files in target directory
+      run: |
+        ls -l ./bill-of-material/target
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: Application-${{ matrix.profile }}
-        path: ./bill-of-material/target/*.deb, ./bill-of-material/target/*.rpm, ./bill-of-material/target/*.AppImage, ./bill-of-material/target/*.exe, ./bill-of-material/target/*.dmg
+    - name: List files in target directory
+      run: |
+        ls -l .
+#    - name: Build with Maven
+#      run: ./mvnw clean install
+#
+#    - name: Upload artifact
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: Application-${{ matrix.profile }}
+#        path: ./bill-of-material/target/*.deb, ./bill-of-material/target/*.rpm, ./bill-of-material/target/*.AppImage, ./bill-of-material/target/*.exe, ./bill-of-material/target/*.dmg
