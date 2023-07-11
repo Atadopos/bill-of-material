@@ -1,0 +1,155 @@
+import io.github.fvarrui.javapackager.gradle.PackageTask
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'io.github.fvarrui:javapackager:1.7.2'
+    }
+}
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.14'
+    id "io.freefair.lombok" version "8.1.0"
+    id "org.xbib.gradle.plugin.shadow" version "3.0.0"
+}
+apply plugin: 'io.github.fvarrui.javapackager.plugin'
+
+
+
+repositories {
+    mavenCentral()
+}
+
+group = 'link.pihda'
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+
+
+application {
+    mainModule = 'link.pihda.billofmaterial'
+    mainClassName = 'link.pihda.billofmaterial.BomApplication'
+}
+
+ext {
+    lombokVersion = '1.18.28'
+    javafxVersion = '20.0.1'
+    javafxCache = "${projectDir}/javafx-cache/"
+    // Define other versions here
+}
+javafx {
+    version = javafxVersion
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.base']
+}
+dependencies {
+    implementation "org.openjfx:javafx-base:${javafxVersion}"
+    implementation "org.openjfx:javafx-controls:${javafxVersion}"
+    implementation "org.openjfx:javafx-fxml:${javafxVersion}"
+    implementation 'io.github.mkpaz:atlantafx-base:2.0.1'
+    implementation 'jakarta.mail:jakarta.mail-api:2.1.2'
+    implementation 'org.eclipse.persistence:eclipselink:4.0.2'
+    implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+    implementation 'jakarta.activation:jakarta.activation-api:2.1.2'
+    implementation 'com.h2database:h2:2.1.214'
+    implementation 'org.apache.poi:poi-ooxml:5.2.3'
+    implementation 'org.apache.poi:poi:5.2.3'
+    implementation 'org.apache.commons:commons-math3:3.6.1'
+}
+
+
+// Groovy script block to detect javafxOS and javafxArch
+def javafxOS = ''
+def javafxArch = ''
+def osName = System.getProperty("os.name").toLowerCase()
+def osArch = System.getProperty("os.arch")
+if (osArch == 'x86_64' || osArch == 'amd64') {
+    javafxArch = 'x64'
+} else if (osArch == 'aarch_64') {
+    javafxArch = 'aarch64'
+} else {
+    throw new Exception("Unsupported architecture: " + osArch)
+}
+if (osName.contains("mac")) {
+    javafxOS = 'osx'
+} else if (osName.contains("win")) {
+    javafxOS = 'windows'
+} else if (osName.contains("nux")) {
+    javafxOS = 'linux'
+} else {
+    throw new Exception("Unsupported operating system: " + osName)
+}
+
+tasks.register('copyDependencies', Copy) {
+    from configurations.runtimeClasspath
+    into "$buildDir/libs"
+}
+
+
+// for download and extract javafx SDK
+tasks.register('prepareJavaFX', DefaultTask) {
+    doLast {
+        // Create cache directory if it doesn't exist
+        file("${javafxCache}").mkdirs()
+
+        // Download to cache directory if not already present
+        if (!file("${javafxCache}/javafx-sdk-${javafxVersion}.zip").exists()) {
+            ant.get(src: "${javafxUrl}", dest: "${javafxCache}/javafx-sdk-${javafxVersion}.zip", skipexisting: true)
+        }
+
+        // Make directory in build path for unpacking
+        file("${buildDir}/javafx-sdk").mkdirs()
+
+        // Unzip from cache directory to build path
+        ant.unzip(src: "${javafxCache}/javafx-sdk-${javafxVersion}.zip", dest: "${buildDir}/javafx-sdk/unpacked")
+
+        // Make the directories
+        file("${buildDir}/jlink/lib/javafx").mkdirs()
+        file("${buildDir}/jlink/lib/javafx/lib").mkdirs()
+    }
+}
+
+shadowJar {
+    destinationDirectory.set(file("${buildDir}/"))
+    manifest {
+        attributes 'Main-Class': "${mainClassName}"
+    }
+}
+
+startScripts {
+    mustRunAfter copyDependencies
+    // rest of the configuration
+}
+
+copyDependencies.dependsOn prepareJavaFX
+shadowJar.dependsOn copyDependencies
+
+tasks.register('packageMyApp', PackageTask) {
+    dependsOn shadowJar
+    mainClass = mainClassName
+    bundleJre = true
+    customizedJre = true
+    generateInstaller = true
+    copyDependencies = false
+    organizationName = 'Atadopos'
+    runnableJar = file("${buildDir}/billofmaterial-${project.version}-all.jar")
+    platform = "auto"
+    additionalModulePaths = [file("${buildDir}/javafx-sdk/unpacked/javafx-sdk-$javafxVersion/lib"), file("${buildDir}/libs")]
+    additionalModules = ['javafx.controls', 'javafx.base', 'javafx.fxml']
+    licenseFile = file('LICENSE.txt')
+    linuxConfig {
+        setWrapJar(false)
+    }
+    macConfig {
+    }
+    winConfig {
+        setWrapJar(false)
+        setGenerateMsi(false)
+        setGenerateMsm(false)
+        setGenerateSetup(true)
+    }
+}
