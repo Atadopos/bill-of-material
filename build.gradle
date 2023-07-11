@@ -84,6 +84,8 @@ if (osName.contains("mac")) {
     throw new Exception("Unsupported operating system: " + osName)
 }
 
+def javafxUrl = "https://download2.gluonhq.com/openjfx/${javafxVersion}/openjfx-${javafxVersion}_${javafxOS}-${javafxArch}_bin-sdk.zip"
+
 tasks.register('copyDependencies', Copy) {
     from configurations.runtimeClasspath
     into "$buildDir/libs"
