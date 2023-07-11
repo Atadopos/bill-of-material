@@ -29,7 +29,7 @@ jobs:
         distribution: 'temurin'
 
     - name: Install WiX Toolset
-      if: runner.os == 'windows-latest'
+      if:  matrix.profile == 'windows'
       run: |
         choco install wixtoolset
 
@@ -46,8 +46,38 @@ jobs:
     - name: List files in target
       run: |
         ls -l target
-#    - name: Upload artifact
-#      uses: actions/upload-artifact@v2
-#      with:
-#        name: Application-${{ matrix.profile }}
-#        path: ./bill-of-material/target/*.deb, ./bill-of-material/target/*.rpm, ./bill-of-material/target/*.AppImage, ./bill-of-material/target/*.exe, ./bill-of-material/target/*.dmg
+
+    - name: Upload DEB artifact for Linux
+      uses: actions/upload-artifact@v2
+      with:
+        name: Application-Linux
+        path: ./target/*.deb
+      if: matrix.profile == 'linux'
+
+    - name: Upload RPM artifact for Linux
+      uses: actions/upload-artifact@v2
+      with:
+        name: Application-Linux
+        path: ./target/*.rpm
+      if: matrix.profile == 'linux'
+
+    - name: Upload AppImage artifact for Linux
+      uses: actions/upload-artifact@v2
+      with:
+        name: Application-Linux
+        path: ./target/*.AppImage
+      if: matrix.profile == 'linux'
+
+    - name: Upload EXE artifact for Windows
+      uses: actions/upload-artifact@v2
+      with:
+        name: Application-Windows
+        path: ./target/*.exe
+      if: matrix.profile == 'windows'
+
+    - name: Upload DMG artifact for macOS
+      uses: actions/upload-artifact@v2
+      with:
+        name: Application-macOS
+        path: ./target/*.dmg
+      if: matrix.profile == 'mac'
