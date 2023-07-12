@@ -121,6 +121,6 @@ class TransactionListViewController {
     }
 
     fun handleExportExcel(actionEvent: ActionEvent) {
-        ExcelGenerator.generateExcelFromTransactions(procurement.transactions)
+        ExcelGenerator.generateExcelFromProcurement(procurement)
     }
 }

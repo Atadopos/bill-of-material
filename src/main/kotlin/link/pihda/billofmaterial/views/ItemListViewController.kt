@@ -231,7 +231,7 @@ class ItemListViewController {
     }
 
     fun handleExportExcel(actionEvent: ActionEvent) {
-        ExcelGenerator.generateExcelFromItems(transaction.items)
+        ExcelGenerator.generateExcelFromTransaction(transaction)
     }
 
     fun init(procurement: Procurement, transaction: Transaction) {
