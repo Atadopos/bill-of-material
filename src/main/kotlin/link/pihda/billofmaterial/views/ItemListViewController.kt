@@ -73,6 +73,7 @@ class ItemListViewController {
             val format = NumberFormat.getNumberInstance().apply {
                 minimumFractionDigits = 2
                 maximumFractionDigits = 2
+                maximumIntegerDigits = Int.MAX_VALUE
             }
 
             // Load items and set table data

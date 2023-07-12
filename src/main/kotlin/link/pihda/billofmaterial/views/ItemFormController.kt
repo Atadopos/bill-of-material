@@ -25,6 +25,7 @@ import link.pihda.billofmaterial.service.TransactionService
 import link.pihda.billofmaterial.ui.RegexLimitingTextField
 import link.pihda.billofmaterial.util.GuiUtil.changeScene
 import link.pihda.billofmaterial.util.InputValidator
+import java.text.NumberFormat
 
 class ItemFormController {
     private val itemService = ItemService()
@@ -52,11 +53,17 @@ class ItemFormController {
     }
 
     fun setItem(item: Item) {
-        priceField.text = item.price.toString()
+        val format = NumberFormat.getNumberInstance().apply {
+            minimumFractionDigits = 2
+            maximumFractionDigits = 2
+            isGroupingUsed = false
+            maximumIntegerDigits = Int.MAX_VALUE
+        }
+        priceField.text = format.format(item.price)
         buyLinkField.text = item.buyLink
         unitField.value = item.unit
         itemField.text = item.item
-        quantityField.text = item.quantity.toString()
+        quantityField.text = format.format(item.quantity)
         descriptionField.text = item.description
         this.item = item
     }
