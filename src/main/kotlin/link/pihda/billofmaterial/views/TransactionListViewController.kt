@@ -21,6 +21,7 @@ import link.pihda.billofmaterial.entity.Transaction
 import link.pihda.billofmaterial.enums.CurrencyCode
 import link.pihda.billofmaterial.service.ProcurementService
 import link.pihda.billofmaterial.service.TransactionService
+import link.pihda.billofmaterial.util.ExcelGenerator
 import link.pihda.billofmaterial.util.GuiUtil.changeScene
 import link.pihda.billofmaterial.util.TableUtil.createRowWithClickHandler
 import link.pihda.billofmaterial.util.TableUtil.setDoubleCellFactory
@@ -117,5 +118,9 @@ class TransactionListViewController {
         format.maximumFractionDigits = 2
         totalLabel.text = format.format(procurement.totalPrice)
         loadTransactions()
+    }
+
+    fun handleExportExcel(actionEvent: ActionEvent) {
+        ExcelGenerator.generateExcelFromTransactions(procurement.transactions)
     }
 }

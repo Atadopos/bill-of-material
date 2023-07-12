@@ -20,6 +20,8 @@
         <TextField fx:id="procurementField" prefWidth="200.0"/>
         <Button style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5px 10px;"
                 text="Save Procurement Name" onAction="#changeProcurementName"/>
+        <Button text="Export as XLSX" onAction="#handleExportExcel"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5px 10px;"/>
     </HBox>
 
     <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Transactions"/>
