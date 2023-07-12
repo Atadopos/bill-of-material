@@ -12,6 +12,7 @@ import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.event.ActionEvent
 import javafx.fxml.FXMLLoader
+import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.util.Callback
@@ -20,9 +21,9 @@ import link.pihda.billofmaterial.entity.Transaction
 import link.pihda.billofmaterial.enums.CurrencyCode
 import link.pihda.billofmaterial.service.ProcurementService
 import link.pihda.billofmaterial.service.TransactionService
-import link.pihda.billofmaterial.util.TableUtil.setDoubleCellFactory
-import link.pihda.billofmaterial.util.TableUtil.createRowWithClickHandler
 import link.pihda.billofmaterial.util.GuiUtil.changeScene
+import link.pihda.billofmaterial.util.TableUtil.createRowWithClickHandler
+import link.pihda.billofmaterial.util.TableUtil.setDoubleCellFactory
 import java.text.NumberFormat
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -47,16 +48,23 @@ class TransactionListViewController {
         }
     }
 
-    fun handleViewTransaction(event: ActionEvent) {
+    private fun viewTransaction(transaction: Transaction, scene: Scene) {
+        val itemListViewController = changeScene<ItemListViewController>(ItemListViewController.getView(), scene)
+        itemListViewController.init(procurement, transaction)
+    }
+
+    fun handleViewTransaction(actionEvent: ActionEvent) {
         val selectedTransaction = transactionTableView.selectionModel.selectedItem
         if (selectedTransaction != null) {
-            val itemListViewController = changeScene<ItemListViewController>(ItemListViewController.getView(), event)
+            val itemListViewController =
+                changeScene<ItemListViewController>(ItemListViewController.getView(), actionEvent)
             itemListViewController.init(procurement, selectedTransaction)
         }
     }
 
     fun handleNewTransaction(actionEvent: ActionEvent) {
-        val transactionFormController = changeScene<TransactionFormController>(TransactionFormController.getView(), actionEvent)
+        val transactionFormController =
+            changeScene<TransactionFormController>(TransactionFormController.getView(), actionEvent)
         transactionFormController.init(procurement)
     }
 
@@ -90,7 +98,8 @@ class TransactionListViewController {
     }
 
     fun handleBack(actionEvent: ActionEvent) {
-        val procurementListViewController = changeScene<ProcurementListViewController>(ProcurementListViewController.getView(), actionEvent)
+        val procurementListViewController =
+            changeScene<ProcurementListViewController>(ProcurementListViewController.getView(), actionEvent)
         procurementListViewController.init()
     }
 
@@ -98,7 +107,8 @@ class TransactionListViewController {
         transactionTableView.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
         removeButton.disableProperty().bind(transactionTableView.selectionModel.selectedItemProperty().isNull)
         viewButton.disableProperty().bind(transactionTableView.selectionModel.selectedItemProperty().isNull)
-        transactionTableView.rowFactory = Callback { createRowWithClickHandler(transactionTableView, lastSelectedIndex) }
+        transactionTableView.rowFactory =
+            Callback { createRowWithClickHandler(transactionTableView, lastSelectedIndex, ::viewTransaction) }
 
         this.procurement = procurement
         procurementField.text = procurement.name

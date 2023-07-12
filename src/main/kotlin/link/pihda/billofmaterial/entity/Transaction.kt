@@ -9,7 +9,6 @@ package link.pihda.billofmaterial.entity/*
 import jakarta.persistence.*
 import link.pihda.billofmaterial.enums.CurrencyCode
 import java.util.*
-import kotlin.collections.ArrayList
 
 @Entity
 @Table(name = "transactions")

@@ -43,7 +43,8 @@ class TransactionFormController {
     }
 
     private fun closeWindow(actionEvent: ActionEvent) {
-        val transactionListViewController = changeScene<TransactionListViewController>(TransactionListViewController.getView(), actionEvent)
+        val transactionListViewController =
+            changeScene<TransactionListViewController>(TransactionListViewController.getView(), actionEvent)
         transactionListViewController.init(procurement)
     }
 

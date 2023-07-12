@@ -8,6 +8,7 @@
  */
 package link.pihda.billofmaterial.util
 
+import javafx.scene.Scene
 import javafx.scene.control.TableCell
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableRow
@@ -35,14 +36,22 @@ object TableUtil {
         }
     }
 
-    fun <T> createRowWithClickHandler(transactionTableView: TableView<T>, lastIndex: AtomicInteger): TableRow<T> {
+    fun <T> createRowWithClickHandler(
+        tableView: TableView<T>,
+        lastIndex: AtomicInteger,
+        onDoubleClick: (T, Scene) -> Unit
+    ): TableRow<T> {
         return TableRow<T>().apply {
-            setOnMouseClicked {
+            setOnMouseClicked { actionEvent ->
                 if (!isEmpty) {
                     val index = index
-                    if (lastIndex.get() == index && transactionTableView.selectionModel.isSelected(index)) {
-                        transactionTableView.selectionModel.clearSelection(index)
-                        lastIndex.set(-1)
+                    if (lastIndex.get() == index && tableView.selectionModel.isSelected(index)) {
+                        if (actionEvent.clickCount == 2) {
+                            onDoubleClick(item, tableView.scene)
+                        } else {
+                            tableView.selectionModel.clearSelection(index)
+                            lastIndex.set(-1)
+                        }
                     } else {
                         lastIndex.set(index)
                     }

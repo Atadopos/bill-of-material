@@ -27,7 +27,8 @@ class TransactionService {
     }
 
     fun update(transaction: Transaction) {
-        transaction.totalPrice = transaction.shippingRate + transaction.taxes + transaction.items.sumOf { it.totalPrice }
+        transaction.totalPrice =
+            transaction.shippingRate + transaction.taxes + transaction.items.sumOf { it.totalPrice }
         transactionDao.update(transaction)
     }
 }

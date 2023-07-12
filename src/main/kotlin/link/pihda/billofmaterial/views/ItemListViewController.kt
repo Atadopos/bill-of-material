@@ -11,6 +11,7 @@ package link.pihda.billofmaterial.views
 import javafx.collections.FXCollections
 import javafx.event.ActionEvent
 import javafx.fxml.FXMLLoader
+import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.util.Callback
@@ -121,7 +122,7 @@ class ItemListViewController {
         itemListTable.rowFactory = Callback {
             createRowWithClickHandler(
                 itemListTable,
-                lastSelectedIndex
+                lastSelectedIndex, ::editItem
             )
         }
         // Bind button disable property to table selection
@@ -165,7 +166,7 @@ class ItemListViewController {
 
     // Method to add an item
     fun handleAddItem(actionEvent: ActionEvent) {
-        val itemFormController = changeScene(getView(), actionEvent) as ItemFormController
+        val itemFormController = changeScene(ItemFormController.getView(), actionEvent) as ItemFormController
         itemFormController.init(procurement, transaction)
     }
 
@@ -192,7 +193,8 @@ class ItemListViewController {
     }
 
     fun handleBack(actionEvent: ActionEvent) {
-        val transactionListViewController = changeScene(getView(), actionEvent) as TransactionListViewController
+        val transactionListViewController =
+            changeScene(TransactionListViewController.getView(), actionEvent) as TransactionListViewController
         transactionListViewController.init(procurement)
     }
 
@@ -210,10 +212,16 @@ class ItemListViewController {
         }
     }
 
+    private fun editItem(item: Item, scene: Scene) {
+        val itemFormController = changeScene(ItemFormController.getView(), scene) as ItemFormController
+        itemFormController.init(procurement, transaction)
+        itemFormController.setItem(item)
+    }
+
     fun handleEditItem(actionEvent: ActionEvent) {
         val selectedItem = itemListTable.selectionModel.selectedItem
         if (selectedItem != null) {
-            val itemFormController = changeScene(getView(), actionEvent) as ItemFormController
+            val itemFormController = changeScene(ItemFormController.getView(), actionEvent) as ItemFormController
             itemFormController.init(procurement, transaction)
             itemFormController.setItem(selectedItem)
         } else {

@@ -10,7 +10,7 @@ package link.pihda.billofmaterial.entity
 
 import jakarta.persistence.*
 import link.pihda.billofmaterial.enums.UnitOfMeasurement
-import java.util.UUID
+import java.util.*
 
 @Entity
 @Table(name = "items")
@@ -19,10 +19,12 @@ open class Item {
     var id: UUID = UUID.randomUUID()
     var item: String = ""
     var quantity: Double = 0.0
+
     @Enumerated(EnumType.STRING)
     var unit: UnitOfMeasurement = UnitOfMeasurement.UNIT
     var price: Double = 0.0
     var totalPrice: Double = 0.0
+
     @Column(columnDefinition = "TEXT")
     var description: String = ""
     var buyLink: String = ""

@@ -8,7 +8,6 @@
  */
 package link.pihda.billofmaterial.ui
 
-import javafx.beans.value.ChangeListener
 import javafx.scene.control.TextField
 import javafx.scene.control.Tooltip
 import link.pihda.billofmaterial.util.InputValidator
@@ -40,6 +39,7 @@ class RegexLimitingTextField : TextField() {
             }
         }
     }
+
     private fun validateInput() {
         if (!validator!!.isValid(text)) {
             style = "-fx-border-color: red;"

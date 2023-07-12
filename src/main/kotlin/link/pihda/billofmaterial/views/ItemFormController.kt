@@ -11,7 +11,10 @@ package link.pihda.billofmaterial.views
 import javafx.beans.binding.Bindings
 import javafx.event.ActionEvent
 import javafx.fxml.FXMLLoader
-import javafx.scene.control.*
+import javafx.scene.control.Alert
+import javafx.scene.control.Button
+import javafx.scene.control.ComboBox
+import javafx.scene.control.TextField
 import link.pihda.billofmaterial.entity.Item
 import link.pihda.billofmaterial.entity.Procurement
 import link.pihda.billofmaterial.entity.Transaction
@@ -20,15 +23,18 @@ import link.pihda.billofmaterial.service.ItemService
 import link.pihda.billofmaterial.service.ProcurementService
 import link.pihda.billofmaterial.service.TransactionService
 import link.pihda.billofmaterial.ui.RegexLimitingTextField
-import link.pihda.billofmaterial.util.InputValidator
 import link.pihda.billofmaterial.util.GuiUtil.changeScene
+import link.pihda.billofmaterial.util.InputValidator
 
 class ItemFormController {
     private val itemService = ItemService()
     private val transactionService = TransactionService()
     private val quantityValidator = InputValidator("^[0-9]*\\.?[0-9]*$", "Only numbers and decimal point are allowed")
     private val priceValidator = InputValidator("^[0-9]*\\.?[0-9]*$", "Only numbers and decimal point are allowed")
-    private val urlValidator = InputValidator("^(https?)://[\\w.-]+(\\.[\\w.-]+)+([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])?$", "Input is not a valid URL")
+    private val urlValidator = InputValidator(
+        "^(https?)://[\\w.-]+(\\.[\\w.-]+)+([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])?$",
+        "Input is not a valid URL"
+    )
     private val procurementService = ProcurementService()
     lateinit var priceField: RegexLimitingTextField
     lateinit var buyLinkField: RegexLimitingTextField
@@ -57,7 +63,8 @@ class ItemFormController {
 
     fun handleSave(event: ActionEvent) {
         if (itemField.text.isEmpty() || quantityField.text.isEmpty() ||
-            unitField.value == null || priceField.text.isEmpty() || buyLinkField.text.isEmpty()) {
+            unitField.value == null || priceField.text.isEmpty() || buyLinkField.text.isEmpty()
+        ) {
             val alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Empty Fields"
             alert.headerText = null
@@ -104,11 +111,12 @@ class ItemFormController {
         unitField.items.addAll(UnitOfMeasurement.entries.toTypedArray())
 
         saveButton.disableProperty().bind(
-            Bindings.createBooleanBinding({
-                itemField.text.isEmpty() || !quantityValidator.isValid(quantityField.text) ||
-                        unitField.value == null || !priceValidator.isValid(priceField.text) ||
-                        !urlValidator.isValid(buyLinkField.text)
-            },
+            Bindings.createBooleanBinding(
+                {
+                    itemField.text.isEmpty() || !quantityValidator.isValid(quantityField.text) ||
+                            unitField.value == null || !priceValidator.isValid(priceField.text) ||
+                            !urlValidator.isValid(buyLinkField.text)
+                },
                 itemField.textProperty(),
                 quantityField.textProperty(),
                 unitField.valueProperty(),

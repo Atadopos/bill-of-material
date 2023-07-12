@@ -48,7 +48,8 @@ class ProcurementFormController {
     }
 
     private fun closeWindow(actionEvent: ActionEvent) {
-        val procurementListViewController = changeScene<ProcurementListViewController>(ProcurementListViewController.getView(), actionEvent)
+        val procurementListViewController =
+            changeScene<ProcurementListViewController>(ProcurementListViewController.getView(), actionEvent)
         procurementListViewController.init()
     }
 }

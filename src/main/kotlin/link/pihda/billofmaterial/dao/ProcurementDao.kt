@@ -38,7 +38,7 @@ class ProcurementDao {
     }
 
     fun update(procurement: Procurement) {
-        JPAUtility.getEntityManagerFactory().createEntityManager().use { entityManager : EntityManager ->
+        JPAUtility.getEntityManagerFactory().createEntityManager().use { entityManager: EntityManager ->
             entityManager.transaction.begin()
             entityManager.merge(procurement)
             entityManager.transaction.commit()

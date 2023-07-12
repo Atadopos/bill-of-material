@@ -21,12 +21,13 @@ Download the latest release from the Releases tab, or build the application from
 
 ### Running
 
-1. `./mvnw clean javafx:run`
+1. `./gradlew clean run`
 
 ## Usage
 
 1. Run the application.
-2. (Step by step instructions of how to use your application. This could include creating a BOM, searching, saving and loading, etc.)
+2. (Step by step instructions of how to use your application. This could include creating a BOM, searching, saving and
+   loading, etc.)
 
 ## Contributing
 

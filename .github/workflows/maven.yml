@@ -10,7 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
         include:
           - os: ubuntu-latest
             profile: linux
@@ -19,64 +19,64 @@ jobs:
           - os: macos-latest
             profile: mac
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Set up JDK 1.17
-      uses: actions/setup-java@v2
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Install WiX Toolset
-      if:  matrix.profile == 'windows'
-      run: |
-        choco install wixtoolset
+      - name: Set up JDK 1.17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
-    - name: Cache Maven packages
-      uses: actions/cache@v2
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2
+      - name: Install WiX Toolset
+        if: matrix.profile == 'windows'
+        run: |
+          choco install wixtoolset
 
-    - name: Build with Maven
-      run: ./mvnw clean install
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
 
-    - name: Upload DEB artifact for Linux
-      uses: actions/upload-artifact@v2
-      with:
-        name: Application-Linux
-        path: ./target/*.deb
-      if: matrix.profile == 'linux'
+      - name: Build with Maven
+        run: ./mvnw clean install
 
-    - name: Upload RPM artifact for Linux
-      uses: actions/upload-artifact@v2
-      with:
-        name: Application-Linux
-        path: ./target/*.rpm
-      if: matrix.profile == 'linux'
+      - name: Upload DEB artifact for Linux
+        uses: actions/upload-artifact@v2
+        with:
+          name: Application-Linux
+          path: ./target/*.deb
+        if: matrix.profile == 'linux'
 
-    - name: Upload AppImage artifact for Linux
-      uses: actions/upload-artifact@v2
-      with:
-        name: Application-Linux
-        path: ./target/*.AppImage
-      if: matrix.profile == 'linux'
+      - name: Upload RPM artifact for Linux
+        uses: actions/upload-artifact@v2
+        with:
+          name: Application-Linux
+          path: ./target/*.rpm
+        if: matrix.profile == 'linux'
 
-    - name: Upload EXE artifact for Windows
-      uses: actions/upload-artifact@v2
-      with:
-        name: Application-Windows
-        path: ./target/*.exe
-      if: matrix.profile == 'windows'
+      - name: Upload AppImage artifact for Linux
+        uses: actions/upload-artifact@v2
+        with:
+          name: Application-Linux
+          path: ./target/*.AppImage
+        if: matrix.profile == 'linux'
 
-    - name: Upload DMG artifact for macOS
-      uses: actions/upload-artifact@v2
-      with:
-        name: Application-macOS
-        path: ./target/*.dmg
-      if: matrix.profile == 'mac'
+      - name: Upload EXE artifact for Windows
+        uses: actions/upload-artifact@v2
+        with:
+          name: Application-Windows
+          path: ./target/*.exe
+        if: matrix.profile == 'windows'
+
+      - name: Upload DMG artifact for macOS
+        uses: actions/upload-artifact@v2
+        with:
+          name: Application-macOS
+          path: ./target/*.dmg
+        if: matrix.profile == 'mac'
 
 #    - name: Get the version
 #      id: get_version
