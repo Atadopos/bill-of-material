@@ -10,6 +10,7 @@ module link.pihda.billofmaterial {
     requires java.naming;
     requires static lombok;
     requires org.apache.poi.ooxml;
+    requires kotlin.stdlib;
 
     exports link.pihda.billofmaterial.enums;
 
