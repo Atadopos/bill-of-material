@@ -22,7 +22,7 @@ import link.pihda.billofmaterial.service.ProcurementService
 import link.pihda.billofmaterial.service.TransactionService
 import link.pihda.billofmaterial.util.TableUtil.setDoubleCellFactory
 import link.pihda.billofmaterial.util.TableUtil.createRowWithClickHandler
-import link.pihda.billofmaterial.util.GuiUtil.ChangeScene
+import link.pihda.billofmaterial.util.GuiUtil.changeScene
 import java.text.NumberFormat
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -50,21 +50,21 @@ class TransactionListViewController {
     fun handleViewTransaction(event: ActionEvent) {
         val selectedTransaction = transactionTableView.selectionModel.selectedItem
         if (selectedTransaction != null) {
-            val itemListViewController = ChangeScene<ItemListViewController>(ItemListViewController.getView(), event)
+            val itemListViewController = changeScene<ItemListViewController>(ItemListViewController.getView(), event)
             itemListViewController.init(procurement, selectedTransaction)
         }
     }
 
     fun handleNewTransaction(actionEvent: ActionEvent) {
-        val transactionFormController = ChangeScene<TransactionFormController>(TransactionFormController.getView(), actionEvent)
+        val transactionFormController = changeScene<TransactionFormController>(TransactionFormController.getView(), actionEvent)
         transactionFormController.init(procurement)
     }
 
     private fun loadTransactions() {
         val transactions: ObservableList<Transaction> = FXCollections.observableArrayList(procurement.transactions)
-        transactionNameColumn.setCellValueFactory(PropertyValueFactory("transactionName"))
-        totalPriceColumn.setCellValueFactory(PropertyValueFactory("totalPrice"))
-        currencyColumn.setCellValueFactory(PropertyValueFactory("currencyCode"))
+        transactionNameColumn.cellValueFactory = PropertyValueFactory("transactionName")
+        totalPriceColumn.cellValueFactory = PropertyValueFactory("totalPrice")
+        currencyColumn.cellValueFactory = PropertyValueFactory("currencyCode")
         setDoubleCellFactory(totalPriceColumn)
         transactionTableView.items = transactions
     }
@@ -90,7 +90,7 @@ class TransactionListViewController {
     }
 
     fun handleBack(actionEvent: ActionEvent) {
-        val procurementListViewController = ChangeScene<ProcurementListViewController>(ProcurementListViewController.getView(), actionEvent)
+        val procurementListViewController = changeScene<ProcurementListViewController>(ProcurementListViewController.getView(), actionEvent)
         procurementListViewController.init()
     }
 

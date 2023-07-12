@@ -28,17 +28,17 @@ class RegexLimitingTextField : TextField() {
     init {
         tooltip.style = "-fx-background-color: red; -fx-text-fill: white;"
 
-        focusedProperty().addListener(ChangeListener { _, _, newValue ->
+        focusedProperty().addListener { _, _, newValue ->
             if (!newValue) {
                 validateInput()
             }
-        })
+        }
 
-        textProperty().addListener(ChangeListener { _, _, _ ->
+        textProperty().addListener { _, _, _ ->
             if (!isFocused) {
                 validateInput()
             }
-        })
+        }
     }
     private fun validateInput() {
         if (!validator!!.isValid(text)) {

@@ -47,10 +47,10 @@ object ExcelGenerator {
 
             // write to file
             try {
-                FileOutputStream("${PathUtil.GetUserDataPath()}Items.xlsx").use { fileOut ->
+                FileOutputStream("${PathUtil.getUserDataPath()}Items.xlsx").use { fileOut ->
                     workbook.write(fileOut)
                     val alert = Alert(Alert.AlertType.INFORMATION)
-                    alert.contentText = "Saved to: ${PathUtil.GetUserDataPath()}Items.xlsx"
+                    alert.contentText = "Saved to: ${PathUtil.getUserDataPath()}Items.xlsx"
                     alert.show()
                 }
             } catch (e: IOException) {

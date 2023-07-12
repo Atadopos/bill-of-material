@@ -21,7 +21,7 @@ import link.pihda.billofmaterial.service.ProcurementService
 import link.pihda.billofmaterial.service.TransactionService
 import link.pihda.billofmaterial.ui.RegexLimitingTextField
 import link.pihda.billofmaterial.util.InputValidator
-import link.pihda.billofmaterial.util.GuiUtil.ChangeScene
+import link.pihda.billofmaterial.util.GuiUtil.changeScene
 
 class ItemFormController {
     private val itemService = ItemService()
@@ -85,12 +85,12 @@ class ItemFormController {
         transactionService.update(transaction!!)
         procurementService.update(procurement!!)
 
-        val itemListViewController = ChangeScene<ItemListViewController>(ItemListViewController.getView(), event)
+        val itemListViewController = changeScene<ItemListViewController>(ItemListViewController.getView(), event)
         itemListViewController.init(procurement!!, transaction!!)
     }
 
     fun handleCancel(event: ActionEvent) {
-        val itemListViewController = ChangeScene<ItemListViewController>(ItemListViewController.getView(), event)
+        val itemListViewController = changeScene<ItemListViewController>(ItemListViewController.getView(), event)
         itemListViewController.init(procurement!!, transaction!!)
     }
 

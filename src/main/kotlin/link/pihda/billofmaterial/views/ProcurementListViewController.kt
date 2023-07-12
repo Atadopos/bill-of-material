@@ -17,7 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory
 import javafx.util.Callback
 import link.pihda.billofmaterial.entity.Procurement
 import link.pihda.billofmaterial.service.ProcurementService
-import link.pihda.billofmaterial.util.GuiUtil.ChangeScene
+import link.pihda.billofmaterial.util.GuiUtil.changeScene
 import link.pihda.billofmaterial.util.TableUtil.createRowWithClickHandler
 import link.pihda.billofmaterial.util.TableUtil.setDoubleCellFactory
 import java.util.concurrent.atomic.AtomicInteger
@@ -49,7 +49,7 @@ class ProcurementListViewController {
     fun viewProcurement(actionEvent: ActionEvent) {
         val selectedProcurement = procurementTableView.selectionModel.selectedItem
         if (selectedProcurement != null) {
-            val transactionListViewController = ChangeScene<TransactionListViewController>(TransactionListViewController.getView(), actionEvent)
+            val transactionListViewController = changeScene<TransactionListViewController>(TransactionListViewController.getView(), actionEvent)
             transactionListViewController.init(selectedProcurement)
         }
     }
@@ -65,7 +65,7 @@ class ProcurementListViewController {
     }
 
     fun handleNewProcurement(actionEvent: ActionEvent) {
-        val procurementFormController = ChangeScene<ProcurementFormController>(ProcurementFormController.getView(), actionEvent)
+        val procurementFormController = changeScene<ProcurementFormController>(ProcurementFormController.getView(), actionEvent)
         procurementFormController.init()
     }
 

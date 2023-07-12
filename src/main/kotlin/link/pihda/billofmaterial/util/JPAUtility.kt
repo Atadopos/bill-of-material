@@ -18,7 +18,7 @@ object JPAUtility {
         try {
             val properties: MutableMap<String, String> = HashMap()
             properties["jakarta.persistence.jdbc.url"] =
-                "jdbc:h2:file:${PathUtil.GetUserDataPath()}data;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"
+                "jdbc:h2:file:${PathUtil.getUserDataPath()}data;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"
             entityManagerFactory = Persistence.createEntityManagerFactory("myPU", properties)
         } catch (ex: Throwable) {
             // Log the exception and throw an exception so the application fails to start

@@ -1,14 +1,10 @@
 module link.pihda.billofmaterial {
-    requires java.base;
     requires javafx.fxml;
     requires javafx.controls;
     requires javafx.base;
     requires javafx.graphics;
-    requires eclipselink;
     requires jakarta.persistence;
     requires atlantafx.base;
-    requires java.naming;
-    requires static lombok;
     requires org.apache.poi.ooxml;
     requires kotlin.stdlib;
 

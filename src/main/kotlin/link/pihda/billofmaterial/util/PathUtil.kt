@@ -9,10 +9,10 @@
 package link.pihda.billofmaterial.util
 
 object PathUtil {
-    fun GetUserDataPath(): String {
+    fun getUserDataPath(): String {
         val appName = "BillOfMaterial"
-        val os: String = java.lang.System.getProperty("os.name").lowercase(java.util.Locale.getDefault())
-        val userHome: String = java.lang.System.getProperty("user.home")
+        val os: String = System.getProperty("os.name").lowercase(java.util.Locale.getDefault())
+        val userHome: String = System.getProperty("user.home")
         return if (os.contains("win")) {
             // Windows
             "$userHome\\AppData\\Local\\$appName\\"

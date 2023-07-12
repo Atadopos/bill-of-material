@@ -15,7 +15,7 @@ import javafx.scene.control.Button
 import javafx.scene.control.TextField
 import link.pihda.billofmaterial.entity.Procurement
 import link.pihda.billofmaterial.service.ProcurementService
-import link.pihda.billofmaterial.util.GuiUtil.ChangeScene
+import link.pihda.billofmaterial.util.GuiUtil.changeScene
 
 class ProcurementFormController {
     private val procurementService = ProcurementService()
@@ -47,8 +47,8 @@ class ProcurementFormController {
         closeWindow(actionEvent)
     }
 
-    fun closeWindow(actionEvent: ActionEvent) {
-        val procurementListViewController = ChangeScene<ProcurementListViewController>(ProcurementListViewController.getView(), actionEvent)
+    private fun closeWindow(actionEvent: ActionEvent) {
+        val procurementListViewController = changeScene<ProcurementListViewController>(ProcurementListViewController.getView(), actionEvent)
         procurementListViewController.init()
     }
 }

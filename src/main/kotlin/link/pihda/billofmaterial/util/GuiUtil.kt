@@ -17,7 +17,7 @@ import javafx.stage.Stage
 import java.io.IOException
 
 object GuiUtil {
-    fun <T> ChangeScene(fxmlLoader: FXMLLoader, actionEvent: ActionEvent): T {
+    fun <T> changeScene(fxmlLoader: FXMLLoader, actionEvent: ActionEvent): T {
         var controller: T? = null
         try {
             // Load the transaction form FXML file

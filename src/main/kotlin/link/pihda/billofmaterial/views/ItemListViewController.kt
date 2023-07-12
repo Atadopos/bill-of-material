@@ -22,7 +22,7 @@ import link.pihda.billofmaterial.service.ProcurementService
 import link.pihda.billofmaterial.service.TransactionService
 import link.pihda.billofmaterial.ui.RegexLimitingTextField
 import link.pihda.billofmaterial.util.ExcelGenerator
-import link.pihda.billofmaterial.util.GuiUtil.ChangeScene
+import link.pihda.billofmaterial.util.GuiUtil.changeScene
 import link.pihda.billofmaterial.util.InputValidator
 import link.pihda.billofmaterial.util.TableUtil.createRowWithClickHandler
 import link.pihda.billofmaterial.util.TableUtil.setDoubleCellFactory
@@ -131,7 +131,7 @@ class ItemListViewController {
 
     // Method to initialize currency ComboBox
     private fun initializeCurrencyComboBox() {
-        currencyComboBox.items = FXCollections.observableArrayList(*CurrencyCode.values())
+        currencyComboBox.items = FXCollections.observableArrayList(*CurrencyCode.entries.toTypedArray())
     }
 
     // Method to initialize the information area
@@ -165,7 +165,7 @@ class ItemListViewController {
 
     // Method to add an item
     fun handleAddItem(actionEvent: ActionEvent) {
-        val itemFormController = ChangeScene(getView(), actionEvent) as ItemFormController
+        val itemFormController = changeScene(getView(), actionEvent) as ItemFormController
         itemFormController.init(procurement, transaction)
     }
 
@@ -192,7 +192,7 @@ class ItemListViewController {
     }
 
     fun handleBack(actionEvent: ActionEvent) {
-        val transactionListViewController = ChangeScene(getView(), actionEvent) as TransactionListViewController
+        val transactionListViewController = changeScene(getView(), actionEvent) as TransactionListViewController
         transactionListViewController.init(procurement)
     }
 
@@ -213,7 +213,7 @@ class ItemListViewController {
     fun handleEditItem(actionEvent: ActionEvent) {
         val selectedItem = itemListTable.selectionModel.selectedItem
         if (selectedItem != null) {
-            val itemFormController = ChangeScene(getView(), actionEvent) as ItemFormController
+            val itemFormController = changeScene(getView(), actionEvent) as ItemFormController
             itemFormController.init(procurement, transaction)
             itemFormController.setItem(selectedItem)
         } else {
