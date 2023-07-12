@@ -176,8 +176,9 @@ class ItemListViewController {
         val selectedItem = itemListTable.selectionModel.selectedItem
         if (selectedItem != null) {
             transaction.items.remove(selectedItem)
-            transactionService.update(transaction)
             itemListTable.items.remove(selectedItem)
+            transactionService.update(transaction)
+            procurementService.update(procurement)
         } else {
             println("No item selected to remove.")
         }
