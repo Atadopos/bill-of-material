@@ -28,54 +28,56 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Install WiX Toolset
+      - name: Install Inno Setup
         if: matrix.profile == 'windows'
         run: |
-          choco install wixtoolset
+          choco install innosetup
 
-      - name: Cache Maven packages
+      - name: Cache Gradle Wrapper and packages
         uses: actions/cache@v2
         with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle
 
-      - name: Build with Maven
-        run: ./mvnw clean install
+      - name: Build with Gradle
+        run: ./gradlew clean packageMyApp
 
       - name: Upload DEB artifact for Linux
         uses: actions/upload-artifact@v2
         with:
           name: Application-Linux
-          path: ./target/*.deb
+          path: ./build/*.deb
         if: matrix.profile == 'linux'
 
       - name: Upload RPM artifact for Linux
         uses: actions/upload-artifact@v2
         with:
           name: Application-Linux
-          path: ./target/*.rpm
+          path: ./build/*.rpm
         if: matrix.profile == 'linux'
 
       - name: Upload AppImage artifact for Linux
         uses: actions/upload-artifact@v2
         with:
           name: Application-Linux
-          path: ./target/*.AppImage
+          path: ./build/*.AppImage
         if: matrix.profile == 'linux'
 
       - name: Upload EXE artifact for Windows
         uses: actions/upload-artifact@v2
         with:
           name: Application-Windows
-          path: ./target/*.exe
+          path: ./build/*.exe
         if: matrix.profile == 'windows'
 
       - name: Upload DMG artifact for macOS
         uses: actions/upload-artifact@v2
         with:
           name: Application-macOS
-          path: ./target/*.dmg
+          path: ./build/*.dmg
         if: matrix.profile == 'mac'
 
 #    - name: Get the version
@@ -101,7 +103,7 @@ jobs:
 #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #      with:
 #        upload_url: ${{ steps.create_release.outputs.upload_url }}
-#        asset_path: ./target/*.deb
+#        asset_path: ./build/*.deb
 #        asset_name: bill-of-material.deb
 #        asset_content_type: application/octet-stream
 #
@@ -113,7 +115,7 @@ jobs:
 #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #      with:
 #        upload_url: ${{ steps.create_release.outputs.upload_url }}
-#        asset_path: ./target/*.exe
+#        asset_path: ./build/*.exe
 #        asset_name: bill-of-material.exe
 #        asset_content_type: application/octet-stream
 #
@@ -125,7 +127,7 @@ jobs:
 #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #      with:
 #        upload_url: ${{ steps.create_release.outputs.upload_url }}
-#        asset_path: ./target/*.AppImage
+#        asset_path: ./build/*.AppImage
 #        asset_name: bill-of-material.AppImage
 #        asset_content_type: application/octet-stream
 #
@@ -137,6 +139,6 @@ jobs:
 #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #      with:
 #        upload_url: ${{ steps.create_release.outputs.upload_url }}
-#        asset_path: ./target/*.dmg
+#        asset_path: ./build/*.dmg
 #        asset_name: bill-of-material.dmg
 #        asset_content_type: application/octet-stream
