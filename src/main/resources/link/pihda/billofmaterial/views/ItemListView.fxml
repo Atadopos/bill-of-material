@@ -39,7 +39,7 @@
     </TableView>
 
     <Label fx:id="descriptionLabel" text="Description:"/>
-    <TextArea fx:id="descriptionArea" editable="false" wrapText="true" prefHeight="100"/>
+    <TextArea fx:id="descriptionArea" editable="false" wrapText="true" prefHeight="200"/>
 
     <Label fx:id="buyLinkLabel" text="Buy Link:"/>
     <TextArea fx:id="buyLinkArea" editable="false" wrapText="true" prefHeight="100"/>

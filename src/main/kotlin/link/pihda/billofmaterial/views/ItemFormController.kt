@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
 import javafx.scene.control.ComboBox
+import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
 import link.pihda.billofmaterial.entity.Item
 import link.pihda.billofmaterial.entity.Procurement
@@ -42,7 +43,7 @@ class ItemFormController {
     lateinit var unitField: ComboBox<UnitOfMeasurement>
     lateinit var itemField: TextField
     lateinit var quantityField: RegexLimitingTextField
-    lateinit var descriptionField: TextField
+    lateinit var descriptionField: TextArea
     lateinit var saveButton: Button
     private var transaction: Transaction? = null
     private var item: Item? = null

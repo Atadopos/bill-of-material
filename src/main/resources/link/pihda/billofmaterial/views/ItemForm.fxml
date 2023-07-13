@@ -27,7 +27,7 @@
         <Label text="*Buy Link:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
         <RegexLimitingTextField fx:id="buyLinkField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
         <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-        <TextField fx:id="descriptionField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+        <TextArea fx:id="descriptionField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
         <Button fx:id="saveButton" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5px 10px;"
                 text="Save" onAction="#handleSave" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
         <Button text="Cancel" style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-padding: 5px 10px;"
