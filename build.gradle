@@ -165,6 +165,7 @@ tasks.register('packageMyApp', PackageTask) {
     additionalModulePaths = [file("${buildDir}/javafx-sdk/unpacked/javafx-sdk-$javafxVersion/lib"), file("${buildDir}/libs")]
     additionalModules = ['javafx.controls', 'javafx.base', 'javafx.fxml']
     licenseFile = file('LICENSE.txt')
+    vmArgs = ['-client', '-Xshare:auto']
     linuxConfig(({
         wrapJar = false
     } as Closure<LinuxConfig>))
