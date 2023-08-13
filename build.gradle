@@ -1,5 +1,6 @@
 import io.github.fvarrui.javapackager.gradle.PackageTask
 import io.github.fvarrui.javapackager.model.LinuxConfig
+import proguard.gradle.ProGuardTask
 
 buildscript {
     repositories {
@@ -7,6 +8,7 @@ buildscript {
     }
     dependencies {
         classpath 'io.github.fvarrui:javapackager:1.7.2'
+        classpath 'com.guardsquare:proguard-gradle:7.3.2'
     }
 }
 plugins {
@@ -19,6 +21,7 @@ plugins {
 }
 
 apply plugin: 'io.github.fvarrui.javapackager.plugin'
+//apply plugin: 'com.guardsquare.proguard-gradle'
 
 repositories {
     mavenCentral()
@@ -111,6 +114,27 @@ tasks.register('prepareJavaFX', DefaultTask) {
         file("${buildDir}/jlink/lib/javafx").mkdirs()
         file("${buildDir}/jlink/lib/javafx/lib").mkdirs()
     }
+}
+
+// Proguard doesn't support kotlin 1.9
+tasks.register('proguard', ProGuardTask) {
+    configuration file('proguard.pro')
+
+    injars(tasks.named('jar', Jar).flatMap { it.archiveFile })
+
+    // Automatically handle the Java version of this build.
+    if (System.getProperty('java.version').startsWith('1.')) {
+        // Before Java 9, the runtime classes were packaged in a single jar file.
+        libraryjars "${System.getProperty('java.home')}/lib/rt.jar"
+    } else {
+        // As of Java 9, the runtime classes are packaged in modular jmod files.
+        libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod", jarfilter: '!**.jar', filter: '!module-info.class'
+        //libraryjars "${System.getProperty('java.home')}/jmods/....."
+    }
+
+    verbose
+
+    outjars(layout.buildDirectory.file("libs/billofmaterial-minified.jar"))
 }
 
 shadowJar {
