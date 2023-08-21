@@ -1,6 +1,6 @@
 import io.github.fvarrui.javapackager.gradle.PackageTask
 import io.github.fvarrui.javapackager.model.LinuxConfig
-import proguard.gradle.ProGuardTask
+//import proguard.gradle.ProGuardTask
 
 buildscript {
     repositories {
@@ -21,7 +21,6 @@ plugins {
 }
 
 apply plugin: 'io.github.fvarrui.javapackager.plugin'
-apply plugin: 'com.guardsquare.proguard-gradle'
 
 repositories {
     mavenCentral()
@@ -30,14 +29,16 @@ repositories {
 group = 'link.pihda'
 version = '1.0-SNAPSHOT'
 
-sourceCompatibility = '17'
-targetCompatibility = '17'
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
 application {
     mainModule = 'link.pihda.billofmaterial'
-    mainClassName = 'link.pihda.billofmaterial.BomApplication'
 }
 
+var mainClassName = 'link.pihda.billofmaterial.BomApplication'
 ext {
     lombokVersion = '1.18.28'
     javafxVersion = '20.0.1'
@@ -158,7 +159,7 @@ tasks.register('packageMyApp', PackageTask) {
     dependsOn shadowJar
     mainClass = mainClassName
     bundleJre = true
-    customizedJre = true
+//    customizedJre = true
     generateInstaller = true
     copyDependencies = false
     organizationName = 'Atadopos'

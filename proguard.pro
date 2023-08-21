@@ -9,6 +9,7 @@
 
 # JavaFX specific rules
 -keep class javafx.** { *; }
+-keep interface javafx.** { *; }
 -keep class com.sun.javafx.** { *; }
 -keep class com.sun.prism.** { *; }
 
@@ -42,13 +43,13 @@
 -keepclassmembers class **$WhenMappings {
     <fields>;
 }
-#-keepclassmembers class kotlin.Metadata {
-#    public <methods>;
-#}
-#-keep class **$Companion { *; }
-#-keepclassmembers class * {
-#    @kotlin.jvm.JvmStatic *;
-#}
+-keepclassmembers class kotlin.Metadata {
+    public <methods>;
+}
+-keep class **$Companion { *; }
+-keepclassmembers class * {
+    @kotlin.jvm.JvmStatic *;
+}
 
 # Your module specifics
 -keep class link.pihda.billofmaterial.** { *; }
@@ -63,3 +64,7 @@
 -keepclasseswithmembers class * {
     @javafx.fxml.FXML *;
 }
+
+-verbose
+-keep class javafx.scene.control.** { *; }
+-keep class javafx.scene.control.** { *; }
