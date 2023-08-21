@@ -159,7 +159,6 @@ tasks.register('packageMyApp', PackageTask) {
     dependsOn shadowJar
     mainClass = mainClassName
     bundleJre = true
-//    customizedJre = true
     generateInstaller = true
     copyDependencies = false
     organizationName = 'Atadopos'
