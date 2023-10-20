@@ -10,15 +10,13 @@ module link.pihda.billofmaterial {
 
     exports link.pihda.billofmaterial.enums;
 
-    exports link.pihda.billofmaterial to lombok, javafx.fxml, javafx.base, javafx.graphics, javafx.controls;
-    exports link.pihda.billofmaterial.entity to lombok, eclipselink, javafx.fxml, javafx.base, javafx.graphics, javafx.controls;
-    exports link.pihda.billofmaterial.ui to lombok, javafx.fxml, javafx.base, javafx.graphics, javafx.controls;
-    exports link.pihda.billofmaterial.views to lombok, javafx.fxml, javafx.base, javafx.graphics, javafx.controls;
+    exports link.pihda.billofmaterial to javafx.fxml, javafx.base, javafx.graphics, javafx.controls;
+    exports link.pihda.billofmaterial.entity to eclipselink, javafx.fxml, javafx.base, javafx.graphics, javafx.controls;
+    exports link.pihda.billofmaterial.ui to javafx.fxml, javafx.base, javafx.graphics, javafx.controls;
+    exports link.pihda.billofmaterial.views to javafx.fxml, javafx.base, javafx.graphics, javafx.controls;
 
-    opens link.pihda.billofmaterial to lombok, javafx.fxml, javafx.base, javafx.graphics, javafx.controls;
-    opens link.pihda.billofmaterial.views to lombok, javafx.fxml, javafx.base, javafx.graphics, javafx.controls;
-    opens link.pihda.billofmaterial.ui to lombok, javafx.fxml, javafx.base, javafx.graphics, javafx.controls;
-    opens link.pihda.billofmaterial.entity to lombok, eclipselink, javafx.fxml, javafx.base, javafx.graphics, javafx.controls;
-
-
+    opens link.pihda.billofmaterial to javafx.fxml, javafx.base, javafx.graphics, javafx.controls;
+    opens link.pihda.billofmaterial.views to javafx.fxml, javafx.base, javafx.graphics, javafx.controls;
+    opens link.pihda.billofmaterial.ui to javafx.fxml, javafx.base, javafx.graphics, javafx.controls;
+    opens link.pihda.billofmaterial.entity to eclipselink, javafx.fxml, javafx.base, javafx.graphics, javafx.controls;
 }

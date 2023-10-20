@@ -1,4 +1,5 @@
 # ProGuard configuration for JavaFX, Kotlin, Jakarta Persistence, and other libraries
+-keep class javafx.scene.control.** { *; }
 
 # Kotlin runtime
 -keep class kotlin.** { *; }
@@ -66,5 +67,3 @@
 }
 
 -verbose
--keep class javafx.scene.control.** { *; }
--keep class javafx.scene.control.** { *; }

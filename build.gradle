@@ -1,5 +1,6 @@
 import io.github.fvarrui.javapackager.gradle.PackageTask
 import io.github.fvarrui.javapackager.model.LinuxConfig
+import org.codehaus.groovy.runtime.GStringImpl
 //import proguard.gradle.ProGuardTask
 
 buildscript {
@@ -8,7 +9,7 @@ buildscript {
     }
     dependencies {
         classpath 'io.github.fvarrui:javapackager:1.7.2'
-//        classpath 'com.guardsquare:proguard-gradle:7.4.0-beta01'
+//        classpath 'com.guardsquare:proguard-gradle:7.4.0'
     }
 }
 plugins {
@@ -16,7 +17,8 @@ plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.14'
     id 'org.xbib.gradle.plugin.shadow' version "3.0.0"
-    id 'org.jetbrains.kotlin.jvm' version '1.9.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.10'
+    id "org.javamodularity.moduleplugin" version "1.8.12"
 }
 
 apply plugin: 'io.github.fvarrui.javapackager.plugin'
@@ -32,16 +34,16 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
+var mainClassName = 'link.pihda.billofmaterial.BomApplication'
 
 application {
     mainModule = 'link.pihda.billofmaterial'
+    mainClass = 'link.pihda.billofmaterial.BomApplication'
 }
 
-var mainClassName = 'link.pihda.billofmaterial.BomApplication'
 ext {
-    lombokVersion = '1.18.28'
     javafxVersion = '20.0.1'
-    javafxCache = "${projectDir}/javafx-cache/"
+    javafxCache = "${projectDir}/javafx-cache/" as GStringImpl
 }
 javafx {
     version = javafxVersion
@@ -131,8 +133,6 @@ tasks.register('prepareJavaFX', DefaultTask) {
 //        libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod", jarfilter: '!**.jar', filter: '!module-info.class'
 //        //libraryjars "${System.getProperty('java.home')}/jmods/....."
 //    }
-//
-//    verbose
 //
 //    outjars(layout.buildDirectory.file("libs/billofmaterial-minified.jar"))
 //}
