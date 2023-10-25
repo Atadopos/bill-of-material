@@ -42,7 +42,7 @@ application {
 }
 
 ext {
-    javafxVersion = '20.0.1'
+    javafxVersion = '21.0.1'
     javafxCache = "${projectDir}/javafx-cache/" as GStringImpl
 }
 javafx {
@@ -91,7 +91,7 @@ def javafxUrl = "https://download2.gluonhq.com/openjfx/${javafxVersion}/openjfx-
 
 tasks.register('copyDependencies', Copy) {
     from configurations.runtimeClasspath
-    into "$buildDir/libs"
+    into layout.buildDirectory.dir("libs").get().asFile
 }
 
 
@@ -107,14 +107,14 @@ tasks.register('prepareJavaFX', DefaultTask) {
         }
 
         // Make directory in build path for unpacking
-        file("${buildDir}/javafx-sdk").mkdirs()
+        layout.buildDirectory.file("javafx-sdk").get().asFile.mkdirs()
 
         // Unzip from cache directory to build path
-        ant.unzip(src: "${javafxCache}/javafx-sdk-${javafxVersion}.zip", dest: "${buildDir}/javafx-sdk/unpacked")
+        ant.unzip(src: "${javafxCache}/javafx-sdk-${javafxVersion}.zip", dest: layout.buildDirectory.file("javafx-sdk/unpacked").get().asFile)
 
         // Make the directories
-        file("${buildDir}/jlink/lib/javafx").mkdirs()
-        file("${buildDir}/jlink/lib/javafx/lib").mkdirs()
+        layout.buildDirectory.file("jlink/lib/javafx").get().asFile.mkdirs()
+        layout.buildDirectory.file("jlink/lib/javafx/lib").get().asFile.mkdirs()
     }
 }
 
@@ -140,7 +140,7 @@ tasks.register('prepareJavaFX', DefaultTask) {
 shadowJar {
     ///  exclude javafx since it would be copied manually
     exclude 'javafx/**'
-    destinationDirectory.set(file("${buildDir}/"))
+    destinationDirectory.set(layout.buildDirectory.dir(".").get().asFile)
     manifest {
         attributes 'Main-Class': "${mainClassName}"
     }
@@ -161,9 +161,12 @@ tasks.register('packageMyApp', PackageTask) {
     generateInstaller = true
     copyDependencies = false
     organizationName = 'Atadopos'
-    runnableJar = file("${buildDir}/billofmaterial-${project.version}-all.jar")
+
+
+    runnableJar = layout.buildDirectory.file("billofmaterial-${project.version}-all.jar").get().asFile
     platform = "auto"
-    additionalModulePaths = [file("${buildDir}/javafx-sdk/unpacked/javafx-sdk-$javafxVersion/lib"), file("${buildDir}/libs")]
+
+    additionalModulePaths = [layout.buildDirectory.dir("javafx-sdk/unpacked/javafx-sdk-${javafxVersion}/lib").get().asFile, layout.buildDirectory.dir("libs").get().asFile]
     additionalModules = ['javafx.controls', 'javafx.base', 'javafx.fxml']
     licenseFile = file('LICENSE.txt')
     vmArgs = ['-client', '-Xshare:auto']
